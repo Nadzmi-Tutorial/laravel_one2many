@@ -19,10 +19,15 @@ Route::get('/', function () {
 });
 
 Route::get('/insert', function() {
-    $user = User::findOrFail(1);
-    $post = new Post(['title' => 'My first post', 'body' => 'This is my first post']);
-
-    $user->posts()->save($post);
+    $admin = User::findOrFail(1);
+    $user = User::findOrFail(2);
+    $postAdmin1 = new Post(['title' => 'My first post', 'body' => 'This is my first post']);
+    $postAdmin2 = new Post(['title' => 'My first post', 'body' => 'This is my first post']);
+    $postUser = new Post(['title' => 'My first post', 'body' => 'This is my first post']);
+    
+    $admin->posts()->save($postAdmin1);
+    $admin->posts()->save($postAdmin2);
+    $user->posts()->save($postUser);
 });
 
 Route::get('/update', function() {
@@ -41,9 +46,15 @@ Route::get('/read', function() {
         echo $post->title . '<br />';
     }
 });
-    
+
 Route::get('/delete', function() {
     $user = User::findOrFail(1);
 
     $user->posts()->whereId(1)->delete();
+});
+
+Route::get('/delete-user', function() {
+    $admin = User::findOrFail(1);
+
+    $admin->delete();
 });
